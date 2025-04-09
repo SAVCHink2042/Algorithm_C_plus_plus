@@ -1,0 +1,92 @@
+#include <iostream>
+using namespace std;
+void heapify(int arr[], int barr[], int n, int i) {
+    int largest = i;   
+    int l = 2*i + 1;  
+    int r = 2*i + 2; 
+    if (l < n && arr[l] > arr[largest])
+        largest = l;
+    if (r < n && arr[r] > arr[largest])
+        largest = r;
+    if (largest != i) {
+        swap(arr[i], arr[largest]);
+        swap(barr[i], barr[largest]);
+        heapify(arr, barr, n, largest);
+    }
+}
+
+void heapSort(int arr[], int barr[], int n) {
+    for (int i = n / 2 - 1; i >= 0; i--)
+        heapify(arr, barr, n, i);
+    for (int i=n-1; i>=0; i--) {
+        swap(arr[0], arr[i]);
+        swap(barr[0], barr[i]);
+        heapify(arr, barr,  i, 0);
+    }
+}
+
+void heapif(int arr[], int n, int i) {
+    int largest = i;   
+    int l = 2*i + 1;  
+    int r = 2*i + 2; 
+    if (l < n && arr[l] > arr[largest])
+        largest = l;
+    if (r < n && arr[r] > arr[largest])
+        largest = r;
+    if (largest != i) {
+        swap(arr[i], arr[largest]);
+       // swap(barr[i], barr[largest]);
+        heapif(arr,  n, largest);
+    }
+}
+
+void heap(int arr[], int n) {
+    for (int i = n / 2 - 1; i >= 0; i--)
+        heapif(arr,  n, i);
+    for (int i=n-1; i>=0; i--) {
+        swap(arr[0], arr[i]);
+        
+        heapif(arr,   i, 0);
+    }
+}
+void func(long long  N, long long  X, long long  T, int arr[], int barr[]) {
+    int carr[N+1];
+    int counter=0;
+    for (int i=0; i<N; i++) {
+        if (T-arr[i]>=0) {
+            counter++;
+            T-=arr[i];
+            carr[counter-1]=barr[i];
+        }
+        else {
+            break;
+        }
+    }
+    cout<<counter<<endl;
+//    if(counter>0 ) {
+      //  heap( arr,   counter);
+   // }
+    for(int i=0; i<counter; i++) {
+        cout<<carr[i]+1<<" ";
+    }
+}
+
+
+int main() {
+    long long N, X, T;
+    cin>>N;
+    cin>>X;
+    cin>>T;
+    int arr[N+1], barr[N+1], l;
+    for (int i=0; i<int(N); i++) {
+        cin>>l;
+        arr[i]=abs(l-X);
+        barr[i]=i;
+    }
+    heapSort( arr, barr,  N);
+   // for (int i=0; i< N ; i++) {
+   //     cout<<arr[i]<< " ";
+    //}
+    func( N,  X,  T, arr, barr);
+    return 0;
+}
