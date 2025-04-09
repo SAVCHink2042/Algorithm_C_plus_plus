@@ -1,0 +1,47 @@
+#include<iostream>
+#include<vector>
+#include<unordered_map>
+
+using namespace std;
+
+struct TrieNode {
+  unordered_map<char, TrieNode* > children;
+  int count;
+  TrieNode() : count(0) {}
+};
+
+void insert(TrieNode* root, const string & str ) {
+    TrieNode * node = root;
+    node->count++;
+    for( char symbol: str ) {
+        if( !node-> children.count( symbol ) ) {
+            node->children[symbol] = new TrieNode();
+        }
+        node = node->children[symbol];
+        node->count++;
+    }
+}
+
+void printTrie(TrieNode* node, string prefix) {
+    if (node->count > 0) {
+        cout << prefix << " " << node->count <<  endl;
+    }
+    for (const auto& child : node->children) {
+        printTrie(child.second, prefix + child.first);
+    }
+}
+
+int main() {
+    int n, k, num;
+    TrieNode *root= new TrieNode();
+    string str;
+    unordered_map< string, pair<int, int> > um;
+    cin>> n >> k;
+    for(int i = 0 ; i < n ; i ++) {
+        cin>> str;
+        cin>> num;
+        um[str]=make_pair(i+1, num );
+        insert(root, str);
+    }    
+    return 0;
+}
